@@ -23,7 +23,7 @@ def convert(input="input.txt", output="output.txt"):
 		
 	columns = len(data[0].split("\t"))
 	
-	stringy  = '{|"class="wikitable sortable"\n'
+	stringy  = '{|class="wikitable sortable"\n'
 	for n in range(0,columns):
 		stringy += f'! {str(n)}\n'
 
