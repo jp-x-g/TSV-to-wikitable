@@ -1,12 +1,9 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
-# JPxG, 2022 October 18 - 2023 January 14
-# Takes a UTF string and returns two things: a string of all characters in the list, and a count of their frequencies.
+# JPxG, 2023 January 14
+# Takes a TSV as input and outputs a simple, sortable wikitable.
 import sys
 import os
-import operator
-import time
-import re
 
 def convert(input="input.txt", output="output.txt"):
 	
