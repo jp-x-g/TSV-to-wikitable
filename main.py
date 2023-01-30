@@ -67,7 +67,7 @@ if (__name__ == "__main__"):
 				convert(str(sys.argv[1]))
 				exit()
 			if len(sys.argv) == 3:
-				convert(str(sys.argv[2]), str(sys.argv[3]))
+				convert(str(sys.argv[1]), str(sys.argv[2]))
 				exit()
 			print("Error: too many arguments provided.")
 			print("")
