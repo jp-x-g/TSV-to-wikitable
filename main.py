@@ -15,24 +15,25 @@ def convert(
 	rotate      = False
 	):
 	
-	f = open(input, "r")
-	data = f.read()
-	f.close()
-	
-	
-	# For processing words only. Converts linebreaks to spaces and strips all alphanumerics.
-	data_len = len(data)
-	# This should make it do words instead of letters.
-	data = data.split("\n")
-	
-	print("Processing input: " + str(data_len) + " chars" + ", " + str(len(data)) + " items")
-	
-	#time.sleep(2)
-		
-	columns = len(data[0].split("\t"))
+	with open(input, "r") as f:
+		data = f.read().strip().split("\n")
+	if not data:
+		print("Error: Couldn't read data.")
+		return "Error: Couldn't read data."
+
+	table_data = [row.split("\t") for row in data]
+
+	#if rotate:
+	#	table_data = list(map(list, zip(*table_data)))  # Transpose table
+	rows, cols = len(table_data), len(table_data[0])
+	if rotate:
+		data = [[table_data[row][col] for row in range(rows)] for col in range(cols)]
+		cols, rows = rows, cols
+
+	print(f"Processing input: {rows} rows of {cols} columns.")
 	
 	stringy  = '{|class="wikitable sortable"\n'
-	for n in range(0,columns):
+	for n in range(0,len(table_data[0])):
 		stringy += f'! {str(n)}\n'
 
 	stringy += "|-\n"
@@ -46,7 +47,7 @@ def convert(
 
 	stringy += "|}"
 
-	print(stringy)
+	#print(stringy)
 	
 	f = open(output, "w")
 	f.write(str(stringy))
@@ -56,24 +57,25 @@ def convert(
 	exit()
 
 if (__name__ == "__main__"):
-	print("TSV to Wikitable V1.0, JPxG January 2023")
+	print("TSV to Wikitable V2.0, JPxG March 2025")
 
-	helpstring = "";
-	helpstring += "\nconvert(input_file, output_file, classes, style, headerstyle, cellstyle, rotate)"
-	helpstring += "\n    Converts input file to Wikitable."
-	helpstring += "\n    Each row of the TSV (linebreak-separated) will be a row of the table."
-	helpstring += "\n    Defaults are input.txt and output.txt."
-	helpstring += "\n    Usage should be like this:"
-	helpstring += "\npython3 main.py uglytext.txt nicetable.txt"
-	helpstring += "\n"
-	helpstring += "\n    If calling convert(), there are optional additional keyword arguments:"
-	helpstring += "\nclasses     - Classes to apply to whole table (default is 'wikitable sortable')"
-	helpstring += "\nstyle       - Style to apply to the whole table"
-	helpstring += "\nheaderstyle - Style to apply to the header row"
-	helpstring += "\ncellstyle   - Style to apply to each cell"
-	helpstring += "\nrowstyle    - Style to apply to each row"
-	helpstring += "\nalternate   - Style for every other row (switches with rowstyle or default)"
-	helpstring += "\nrotate      - Transpose (top left stays put, rows become columns and vice versa)"
+	helpstring = """
+    convert(input_file, output_file, classes, style, headerstyle, cellstyle, rotate)
+Converts input file to Wikitable.
+Each row of the TSV (linebreak-separated) will be a row of the table.
+Defaults are input.txt and output.txt.
+Usage should be like this:
+    python3 main.py uglytext.txt nicetable.txt
+
+If calling convert(), there are optional additional keyword arguments:
+    classes     - Classes to apply to whole table (default is 'wikitable sortable')
+    style       - Style to apply to the whole table
+    headerstyle - Style to apply to the header row
+    cellstyle   - Style to apply to each cell
+    rowstyle    - Style to apply to each row
+    alternate   - Style for every other row (switches with rowstyle or default)
+    rotate      - Transpose (top left stays put, rows become columns and vice versa)
+"""
 
 
 	if len(sys.argv) == 1:
