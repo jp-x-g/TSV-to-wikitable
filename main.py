@@ -5,7 +5,15 @@
 import sys
 import os
 
-def convert(input="input.txt", output="output.txt"):
+def convert(
+	input       = "input.txt",
+	output      = "output.txt",
+	classes     = "wikitable sortable",
+	style       = None,
+	headerstyle = None,
+	cellstyle   = None,
+	rotate      = False
+	):
 	
 	f = open(input, "r")
 	data = f.read()
@@ -51,12 +59,23 @@ if (__name__ == "__main__"):
 	print("TSV to Wikitable V1.0, JPxG January 2023")
 
 	helpstring = "";
-	helpstring += "\n> convert(input_file, output_file)"
-	helpstring += "\nConverts input file to Wikitable."
-	helpstring += "\nDefaults are input.txt and output.txt."
-	helpstring += "\nUsage should be like this:"
-	helpstring += "\n   python3 main.py uglytext.txt nicetable.txt"
+	helpstring += "\nconvert(input_file, output_file, classes, style, headerstyle, cellstyle, rotate)"
+	helpstring += "\n    Converts input file to Wikitable."
+	helpstring += "\n    Each row of the TSV (linebreak-separated) will be a row of the table."
+	helpstring += "\n    Defaults are input.txt and output.txt."
+	helpstring += "\n    Usage should be like this:"
+	helpstring += "\npython3 main.py uglytext.txt nicetable.txt"
 	helpstring += "\n"
+	helpstring += "\n    If calling convert(), there are optional additional keyword arguments:"
+	helpstring += "\nclasses     - Classes to apply to whole table (default is 'wikitable sortable')"
+	helpstring += "\nstyle       - Style to apply to the whole table"
+	helpstring += "\nheaderstyle - Style to apply to the header row"
+	helpstring += "\ncellstyle   - Style to apply to each cell"
+	helpstring += "\nrowstyle    - Style to apply to each row"
+	helpstring += "\nalternate   - Style for every other row (switches with rowstyle or default)"
+	helpstring += "\nrotate      - Transpose (top left stays put, rows become columns and vice versa)"
+
+
 	if len(sys.argv) == 1:
 		convert()
 		exit()
