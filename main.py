@@ -50,17 +50,19 @@ def convert(input="input.txt", output="output.txt"):
 if (__name__ == "__main__"):
 	print("TSV to Wikitable V1.0, JPxG January 2023")
 
+	helpstring = "";
+	helpstring += "\n> convert(input_file, output_file)"
+	helpstring += "\nConverts input file to Wikitable."
+	helpstring += "\nDefaults are input.txt and output.txt."
+	helpstring += "\nUsage should be like this:"
+	helpstring += "\n   python3 main.py uglytext.txt nicetable.txt"
+	helpstring += "\n"
 	if len(sys.argv) == 1:
 		convert()
 		exit()
 	else:
 		if (sys.argv[1] == "-h") or (sys.argv[1] == "--help") or (sys.argv[1] == "help"):
-			print("> convert(input_file, output_file)")
-			print("  Converts input file to Wikitable.")
-			print("  Defaults are input.txt and output.txt.")
-			print("  Usage should be like this:")
-			print("   python3 main.py uglytext.txt nicetable.txt")
-			print("")
+			print(helpstring)
 			exit()
 		else:
 			if len(sys.argv) == 2:
@@ -70,13 +72,7 @@ if (__name__ == "__main__"):
 				convert(str(sys.argv[1]), str(sys.argv[2]))
 				exit()
 			print("Error: too many arguments provided.")
-			print("")
-			print("> convert(input_file, output_file)")
-			print("  Converts input file to Wikitable.")
-			print("  Defaults are input.txt and output.txt.")
-			print("  Usage should be like this:")
-			print("   python3 main.py uglytext.txt nicetable.txt")
-			print("")
+			print(helpstring)
 			exit()
 
 
