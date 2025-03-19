@@ -38,7 +38,7 @@ def convert(
 		r = "|"
 	# If we're skipping the header we will just format the top row as a normal table.
 
-	stringy  = f'\{|class="{classes}"'
+	stringy  = '{|class="' + str(classes) + '"'
 	if attrs is not None:
 		stringy += f' {attrs}'
 	stringy += "\n"
@@ -107,6 +107,14 @@ If calling convert(), there are optional additional keyword arguments:
 		with open("input.txt", "r") as f:
 			data = f.read()
 		convert(data, "output.txt")
+#		convert(data, "output.txt",	
+#			rotate      = True,
+#			skipheader  = True,
+#			classes     = "wikitable sortable plainlinks",
+#			attrs       = "style='font-family: monospace;'",
+#			headerattrs = "style='background:#0FF'",
+#			rowattrs    = "style='background:#FF0'",
+#			altattrs    = "style='background:#F0F'")
 		exit()
 	else:
 		if (sys.argv[1] == "-h") or (sys.argv[1] == "--help") or (sys.argv[1] == "help"):
