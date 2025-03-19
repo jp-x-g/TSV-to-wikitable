@@ -6,17 +6,17 @@ import sys
 import os
 
 def convert(
-	input       = "input.txt",
-	output      = "output.txt",
+	inputtext   = None,
+	output      = None,
+	rotate      = False,
 	classes     = "wikitable sortable",
-	style       = None,
-	headerstyle = None,
-	cellstyle   = None,
-	rotate      = False
+	attrs       = None,
+	headerattrs = None,
+	rowattrs    = None,
+	altattrs    = None
 	):
 	
-	with open(input, "r") as f:
-		data = f.read().strip().split("\n")
+	data = inputtext.strip().split("\n")
 	if not data:
 		print("Error: Couldn't read data.")
 		return "Error: Couldn't read data."
@@ -49,12 +49,13 @@ def convert(
 
 	#print(stringy)
 	
-	f = open(output, "w")
-	f.write(str(stringy))
-	f.close()
-	print("")
-	print(f"Saved to: {output}")
-	exit()
+	if output is not None:
+		f = open(output, "w")
+		f.write(str(stringy))
+		f.close()
+		print("")
+		print(f"Saved to: {output}")
+		exit()
 
 if (__name__ == "__main__"):
 	print("TSV to Wikitable V2.0, JPxG March 2025")
@@ -68,18 +69,20 @@ Usage should be like this:
     python3 main.py uglytext.txt nicetable.txt
 
 If calling convert(), there are optional additional keyword arguments:
-    classes     - Classes to apply to whole table (default is 'wikitable sortable')
-    style       - Style to apply to the whole table
-    headerstyle - Style to apply to the header row
-    cellstyle   - Style to apply to each cell
-    rowstyle    - Style to apply to each row
-    alternate   - Style for every other row (switches with rowstyle or default)
-    rotate      - Transpose (top left stays put, rows become columns and vice versa)
+    rotate      - Transpose (top left stays put, rows become cols & vice versa)
+    classes     - Classes to apply to whole table (default 'wikitable sortable')
+    attrs       - Attribute string, of any sort, to apply to the whole table
+                  (e.g. "style="hoomba: baroomba;" baba="booey"")
+    headerattrs - Same, but to apply to each cell in the header row
+    rowattrs    - Or to apply to each row of the rest of the table
+    altattrs    - Or to every-other-row (alternates with rowattrs or default)
 """
 
 
 	if len(sys.argv) == 1:
-		convert()
+		with open("input.txt", "r") as f:
+			data = f.read()
+		convert(data, "output.txt")
 		exit()
 	else:
 		if (sys.argv[1] == "-h") or (sys.argv[1] == "--help") or (sys.argv[1] == "help"):
@@ -87,10 +90,14 @@ If calling convert(), there are optional additional keyword arguments:
 			exit()
 		else:
 			if len(sys.argv) == 2:
-				convert(str(sys.argv[1]))
+				with open(str(sys.argv[1]), "r") as f:
+					data = f.read()
+				convert(data, "output.txt")
 				exit()
 			if len(sys.argv) == 3:
-				convert(str(sys.argv[1]), str(sys.argv[2]))
+				with open(str(sys.argv[1]), "r") as f:
+					data = f.read()
+				convert(data, str(sys.argv[2]))
 				exit()
 			print("Error: too many arguments provided.")
 			print(helpstring)
