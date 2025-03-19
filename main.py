@@ -95,11 +95,11 @@ If calling convert(), there are optional additional keyword arguments:
     rotate      - Transpose (top left stays put, rows become cols & vice versa)
     skipheader  - Format all rows as normal rows
     classes     - Classes to apply to whole table (default 'wikitable sortable')
-    attrs       - Attribute string, of any sort, to apply to the whole table
-                  (e.g. "style="hoomba: baroomba;" baba="booey"")
-    headerattrs - Same, but to apply to each cell in the header row
+    attrs       - Attribute string of any sort, to apply to the whole table e.g.
+                    style="hoomba: baroomba;" baba="booey"
+    headerattrs - Same, but to apply to just the header row
     rowattrs    - Or to apply to each row of the rest of the table
-    altattrs    - Or to every-other-row (alternates with rowattrs or default)
+    altattrs    - Or to every-other-row (alternates with rowattrs, or default)
 """
 
 
