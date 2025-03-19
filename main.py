@@ -9,6 +9,7 @@ def convert(
 	inputtext   = None,
 	output      = None,
 	rotate      = False,
+	skipheader  = False,
 	classes     = "wikitable sortable",
 	attrs       = None,
 	headerattrs = None,
@@ -32,23 +33,45 @@ def convert(
 
 	print(f"Processing input: {rows} rows of {cols} columns.")
 	
-	stringy  = '{|class="wikitable sortable"\n'
-	for n in range(0,len(table_data[0])):
-		stringy += f'! {str(n)}\n'
+	r = "!"
+	if skipheader == True:
+		r = "|"
+	# If we're skipping the header we will just format the top row as a normal table.
 
-	stringy += "|-\n"
-	
-	for item in data:
-		items = item.split("\t")
-		strangy = "|-\n"
-		for thing in items:
-			strangy += f"| {thing.strip()}\n"
+	stringy  = f'\{|class="{classes}"'
+	if attrs is not None:
+		stringy += f' {attrs}'
+	stringy += "\n"
+	for n in table_data[0]:
+		if headerattrs is not None:
+			stringy += f'{r} {headerattrs} | {str(n)}\n'
+		else:
+			stringy += f"{r} {str(n)}\n"
+
+	# Four possible cases for rowattrs and altattrs.
+	if rowattrs is not None:
+		if altattrs is not None:
+			altrows = [f" {rowattrs}", f" {altattrs}"] # 11: Two different sets of attributes alternate.
+		else:
+			altrows = [f" {rowattrs}", f" {rowattrs}"] # 10: Every row has the same attributes.
+	else:
+		if altattrs is not None:
+			altrows = [""            , f" {altattrs}"] # 01: Alternating row attributes, but no normal ones.
+		else:
+			altrows = [""            , ""            ] # 00: No attributes specified whatsoever.
+
+	for row in table_data[1:]:
+		strangy = f"|-{altrows[0]}\n"
+		for cell in row:
+			strangy += f"| {cell}\n"
 		stringy += strangy
+		altrows.reverse()
 
 	stringy += "|}"
 
 	#print(stringy)
-	
+	if output is None:
+		return stringy
 	if output is not None:
 		f = open(output, "w")
 		f.write(str(stringy))
@@ -70,6 +93,7 @@ Usage should be like this:
 
 If calling convert(), there are optional additional keyword arguments:
     rotate      - Transpose (top left stays put, rows become cols & vice versa)
+    skipheader  - Format all rows as normal rows
     classes     - Classes to apply to whole table (default 'wikitable sortable')
     attrs       - Attribute string, of any sort, to apply to the whole table
                   (e.g. "style="hoomba: baroomba;" baba="booey"")
